@@ -1,0 +1,41 @@
+﻿@import url("https://fonts.googleapis.com/css?family=Lato:400,700,400italic");
+body { font: 15px;
+       
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+    height:100%;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 100%;
+}
+
+
+.rodaper {
+    width: 100%;
+    background-color:cadetblue;
+	bottom:0;
+	width:100%;
+}
+
+.rodaper p {
+    color:white;
+}
+
+.rodaper p:hover{
+    color:black;
+}

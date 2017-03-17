@@ -1,0 +1,27 @@
+﻿@model IEnumerable<LanceUmDesafio.Models.Desafio>
+
+@{
+    ViewBag.Title = "Lista De Desafios Por Categoria";
+    Layout = "~/Views/Shared/_LayoutSemBanner.cshtml";
+}
+@{
+    ViewBag.Title = "Lista de Desafios";
+    Layout = "~/Views/Shared/_LayoutSemBanner.cshtml";
+}
+
+<br />
+@foreach (var item in Model)
+{
+    <div class="col-md-3 col-sm-6">
+        <div class="panel panel-default text-center">
+            <div class="panel-heading">
+                <i class="fa fa-sticky-note fa-5x" aria-hidden="true"></i>
+            </div>
+            <div class="panel-body">
+                <h4>@item.Titulo</h4>
+                <p>@item.Conteudo.Substring(0, 50)...</p>
+                <a href="@Url.Action("Details","Desafio",new { id = item.IdDesafio })" class="btn btn-primary">Leia Mais</a>
+            </div>
+        </div>
+    </div>
+}

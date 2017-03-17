@@ -1,0 +1,86 @@
+﻿@model LanceUmDesafio.Models.AlterarFotoViewModel
+
+<div class="col-md-6">
+    
+    <div class="row">
+        <div class="alert alert-dismissible alert-success" id="sucess">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong id="msgsucess"></strong>
+        </div>
+
+        <div class="alert alert-dismissible alert-danger" id="error">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong id="msgerror"></strong>
+        </div>
+
+    </div>
+
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3 class="panel-title">Alterar Minha Foto</h3>
+        </div>
+        <div class="panel-body text-center">
+            <div class="image-container">
+                <img src="@Url.Content(Model.Foto)" id="foto" style="width:120px;height:120px;" class="img-circle" alt="Foto" />
+            </div>
+            <br />
+            
+            <div class="form-control">
+                <input type="file" id="uploadEditorImage"/>
+            </div>
+            
+        </div>
+    </div>
+
+</div>
+
+@if (!Model.Foto.Replace(" ", "").Equals("~/Uploads/Usuarios/default.jpg"))
+{
+    <script>
+    $(document).ready(function() {
+        d = new Date();
+        $("#foto").attr("src", "@Model.Foto.Replace(" ","")?timestamp=" + d.getTime());
+    });
+    </script>
+}
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('#sucess').hide();
+        $('#error').hide();
+    });
+
+    $("#uploadEditorImage").change(function () {
+        var data = new FormData();
+        var files = $("#uploadEditorImage").get(0).files;
+        if (files.length > 0) {
+            data.append("HelpSectionImages", files[0]);
+        }
+        $.ajax({
+            url: "/Usuario/EnviarFoto",
+            type: "POST",
+            dataType: 'json',
+            processData: false,
+            contentType: false,
+            data: data,
+            success: function (response) {
+                if (response != null && response.success) {
+                    $('#sucess').show();
+                    $('#msgsucess').html(response.responseText);
+                    d = new Date();
+                    $("#foto").attr("src", "@Model.Foto.Replace(" ","")?timestamp=" + d.getTime());
+                } else {
+                    $('#error').show();
+                    $('#msgerror').html(response.responseText);
+                }
+            },
+            error: function (er) {
+                alert(er);
+            }
+
+        });
+    });
+
+</script>

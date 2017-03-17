@@ -1,0 +1,35 @@
+﻿@{
+    ViewBag.Title = "Home";
+}
+
+<div class="jumbotron text-center">
+    <p class="lead">Lance ou pegue um desafio de programação e pratique seus conhecimentos!</p>
+    <div class="row">
+        <div class="col-md-6">
+            <p><a href="@Url.Action("Create","Desafio")" class="btn btn-primary btn-lg">Lance Um Desafio &raquo;</a></p>
+        </div>
+        <div class="col-md-6">
+            <p><a href="@Url.Action("Index","Desafio")" class="btn btn-warning btn-lg">Pegar Um Desafio &raquo;</a></p>
+        </div> 
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Cadastre-se!</h2>
+        <p>
+            Faça seu cadastro agora mesmo!
+        </p>
+        <p><a class="btn btn-success" href="@Url.Action("Register","Account")">Cadastre-se</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Pegue Um Desafio</h2>
+        <p>No lance um desafio, existe desafios de todas as categorias, Como C#, Java, C++, o que está esperando para praticar seus conhecimentos</p>
+        <p><a class="btn btn-warning" href="@Url.Action("Index","Desafio")">Pegue um Desafio</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Lance Um Desafio</h2>
+        <p>Tenho varios desafios que podem ajudar!, então cadastre-os aqui!</p>
+        <p><a class="btn btn-primary" href="@Url.Action("Create","Desafio")">Lance Um Desafio</a></p>
+    </div>
+</div>

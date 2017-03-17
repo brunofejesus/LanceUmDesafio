@@ -1,0 +1,143 @@
+﻿@using LanceUmDesafio.Models;
+@model Desafio
+
+@{
+    LanceUmDesafioDBEntities db = new LanceUmDesafioDBEntities();
+    ViewBag.Title = Model.Titulo;
+    Layout = "~/Views/Shared/_LayoutSemBanner.cshtml";
+    var comentarios = db.Comentario
+        .Where(c => c.IDDesafio.Equals(Model.IdDesafio))
+        .OrderByDescending(c => c.DataComentario);
+}
+
+<!-- Content Row -->
+<div class="row">
+
+    <!-- Blog Post Content Column -->
+    <div class="col-lg-8">
+
+        <!-- Blog Post -->
+
+        <hr>
+
+        <!-- Date/Time -->
+        <p><i class="fa fa-clock-o"></i> Postado em @Model.DataPostagem.Value.ToLongDateString() por @Model.AspNetUsers.Nome</p>
+
+        <hr>
+
+        <!-- Preview Image -->
+        @*<img class="img-responsive" src="http://placehold.it/900x300" alt="">*@
+
+        <!-- Post Content -->
+        <p class="lead">@Model.Titulo</p>
+
+        <hr>
+
+        <!-- Blog Comments -->
+        <div class="paddi"></div>
+        <h4 class="media-heading">Descrição Do Desafio</h4>
+        <p class="text-success">
+            @Model.Conteudo
+        </p>
+        <hr />
+        <h4 class="media-heading">Dicas para resolução</h4>
+        
+            @if (string.IsNullOrEmpty(@Model.Dicas))
+            {
+                <p class="text-warning">Não existe dicas para esse desafio :(</p>
+            }
+            else
+            {
+                <p>@Model.Dicas</p>
+            }
+
+        <div class="clearfix"></div>
+        <hr />
+        <h4 class="media-heading">Comentários</h4>
+        <div id="comentarios">
+            @{ Html.RenderPartial("Comments", comentarios);}
+        </div>
+        
+
+        <hr>
+        <!-- Comments Form -->
+        <div class="well">
+            <h4>Escreva um comentario</h4>
+            @using (Html.BeginForm("Create","Comentarios",FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    @Html.HiddenFor(m => m.IdDesafio)
+                    <textarea class="form-control" rows="3" id="Conteudo" name="Conteudo"></textarea>
+                </div>
+                if (Request.IsAuthenticated)
+                {
+                    <button type="submit" class="btn btn-success">Comentar</button>
+                }
+                else
+                {
+                    <a href="@Url.Action("Login","Account", new { returnUrl = "/Desafio/Details/"+Model.IdDesafio})">Faça Login Para Comentar</a>
+                }
+
+            }
+        </div>
+
+    </div>
+
+    <!-- Blog Sidebar Widgets Column -->
+    <div class="col-md-4">
+
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title">Classifique Este Desafio</h3>
+            </div>
+            <div class="panel-body">
+                
+                @using (Html.BeginForm("Votar", "Desafio", FormMethod.Post))
+                {
+                    @Html.HiddenFor(m => m.IdDesafio)
+                    <div class="row">
+                        <div class="col-sm-8">
+                            @Html.BootstrapRating(m => m.Rank)
+                        </div>
+                        <div class="col-sm-2">
+                            <button class="btn btn-success text-right">Votar</button>
+                        </div>
+                    </div>  
+                }
+            </div>
+        </div>
+
+        <!-- Blog Categories Well -->
+        <div class="well">
+            <h4>Categorias</h4>
+            <div class="row">
+                <div class="col-lg-6">
+                    <ul class="list-unstyled">
+                        @{
+                            var categorias = db.Categoria.Where(ca => ca.ID_Categoria != null);
+                            foreach (var item in categorias)
+                            {
+                                <li>
+                                    <a href="#">@item.Nome</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+                </div>
+            </div>
+            <!-- /.row -->
+        </div>
+
+        <!-- Side Widget Well -->
+        @*<div class="well">
+            <h4>Side Widget Well</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore, perspiciatis adipisci accusamus laudantium odit aliquam repellat tempore quos aspernatur vero.</p>
+        </div>*@
+
+    </div>
+
+</div>
+<!-- /.row -->
+
+<script src="~/Scripts/bootstrap-rating/bootstrap-rating.min.js"></script>

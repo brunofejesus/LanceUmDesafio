@@ -1,0 +1,94 @@
+﻿@using reCAPTCHA.MVC
+@model LanceUmDesafio.Models.RegisterViewModel
+@{
+    ViewBag.Title = "Cadastre-se";
+    Layout = "~/Views/Shared/_LayoutSemBanner.cshtml";
+}
+<div class="col-md-4">
+    <div class="list-group">
+        <a href="@Url.Action("Index","Home")" class="list-group-item">
+            <h4 class="list-group-item-heading">Voltar para Home</h4>
+        </a>
+        <a href="@Url.Action("Login","Account")" class="list-group-item">
+            <h4 class="list-group-item-heading">Faça Login</h4>
+        </a>
+    </div>
+</div>
+
+<div class="col-md-1">
+
+            
+</div>
+
+<div class="col-md-6">
+@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+
+
+    <div class="form-group">
+        <label class="control-label">Nome</label>
+        @Html.TextBoxFor(m => m.Nome, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Nome, "", new { @class = "text-danger" })
+    </div>
+
+
+                <div class="form-group">
+                    <label class="control-label" for="Sexo">Sexo</label>
+                    @Html.DropDownList("Sexo", null, htmlAttributes: new { @class = "c-select form-control boxed" })
+                    @Html.ValidationMessageFor(model => model.Sexo, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Data De Nascimento</label>
+                    @Html.TextBoxFor(m => m.DataNascimento, new { @class = "form-control", id = "data" })
+                    @Html.ValidationMessageFor(m => m.DataNascimento, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Email</label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Senha</label>
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">Confirmar Senha</label>
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+
+                @*<div class="form-group">
+                        <label class="control-label">Você é um robo?</label>
+                        @Html.Recaptcha()
+                        @Html.ValidationMessage("ReCaptcha")
+                    </div>*@
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Cadastrar</button>
+                </div>
+
+}
+</div>
+
+
+    @Styles.Render("~/bundles/datepicker")
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/datepickers")
+    <script type="text/javascript">
+        $('#data').datepicker({
+            format: "dd/mm/yyyy",
+            language: "pt-BR",
+            todayHighlight: true
+        });
+
+    </script>
+}

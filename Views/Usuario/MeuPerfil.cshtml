@@ -1,0 +1,72 @@
+﻿@model LanceUmDesafio.Models.AspNetUsers
+
+<div class="col-md-3">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            Minha Foto
+        </div>
+        <div class="panel-body text-center">
+            <div class="image-container">
+                <img src="@Url.Content(Model.Foto)" style="width:120px;height:120px;" class="img-circle" alt="Foto" id="foto" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-heading">Minhas Informações</div>
+        <div class="panel-body">
+            <div class="form-group">
+                <label class="control-label">Nome</label>
+                <input disabled="" class="form-control" value="@Model.Nome" type="text">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Email</label>
+                <input disabled="" class="form-control" value="@Model.Email" type="text">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Sexo</label>
+                <input disabled="" class="form-control" value="@Model.Sexo" type="text">
+            </div>
+
+            <div class="form-group">
+                <label class="control-label">Data de nascimento</label>
+                <input disabled="" class="form-control" value="@Model.DataNascimento.Value.ToShortDateString()" type="text">
+            </div>
+
+            @Ajax.ActionLink("Editar", "EditarMeuPerfil", "Usuario", new { id = Model.Id },
+            new AjaxOptions
+            {
+                HttpMethod = "Get",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = "minhaconta"
+            }, new { @class = "btn btn-warning" })
+
+        </div>
+    </div>
+</div>
+
+<div class="col-md-3">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <h3 class="panel-title">Avisos</h3>
+        </div>
+        <div class="panel-body">
+            Sem Avisos
+        </div>
+    </div>
+</div>
+
+
+@if (!Model.Foto.Replace(" ", "").Equals("~/Uploads/Usuarios/default.jpg"))
+{
+    <script>
+    $(document).ready(function() {
+        d = new Date();
+        $("#foto").attr("src", "@Model.Foto.Replace(" ","")?timestamp=" + d.getTime());
+    });
+    </script>
+}
